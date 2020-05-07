@@ -13,7 +13,7 @@ if (isset($_POST['login'])) {
 
     if ($query->rowCount() > 0) {
         $_SESSION['cust_id'] = $results['Cust_id'];
-        $_SESSION['alogin'] = $_POST['username'];
+        $_SESSION['alogin'] = $results['username'];
         echo "<script type='text/javascript'> document.location = 'index.php'; </script>";
     } else {
 

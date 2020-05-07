@@ -81,8 +81,10 @@ include 'connection.php';
                             $productid = htmlentities($result->Product_Id);
                             $name = htmlentities($result->Product_Name);
                             $price = htmlentities($result->Selling_price);
-                            if(isset($_SESSION['message']))
-                            $status = $_SESSION['message'];
+                            if(isset($_SESSION['message'])){
+                                $status = $_SESSION['message'];
+
+                            }
                             else
                                 $status = "";
                             echo "<div class=\"col-sm-4\">
@@ -90,7 +92,7 @@ include 'connection.php';
                                         <div class='single-products'>
                                             <div class='productinfo text-center'>
                                             <h2>$status</h2>
-                                                <img src='images/home/$name.png' alt='product'/>
+                                                <img src='images/home/$name.jpg' alt='product'/>
                                                 <h2>$$price</h2>
                                                 <p>$name</p>
                                                 <form class='form-inline' method='post' action='add_cart.php'>

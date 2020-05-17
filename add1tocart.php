@@ -1,27 +1,21 @@
 <?php
 session_start();
-require 'connection.php';
+include 'connection.php';
+$id = $_POST['id'];
 
-if(isset($_POST["submit"])){
-    $cpid= $_POST['cpid'];
+if(isset($_SESSION['alogin'])){
 
 
-    $count = "SELECT no_of_items from products where ID=$cpid";
-    $row2 = $db->query($count);
-    $row1 = mysqli_fetch_assoc($row2);
-    $count1=$row1[0];
-    print_r($row1);
-    echo $row1['no_of_items'];
-    if($row1['no_of_items']<1){
-        echo $row1['no_of_items'];
+    $stmt = $db->prepare("SELECT num_of_item from products_cart where Product_Id=$id") ;
+    $stmt->execute();
+    $row = $stmt->fetch();
+    if($row['num_of_item']<1){
         header('Location: cart.php');
     }
     else{
-        $result = $db->query("update cart set no_of_items=no_of_items+1 where pid=$cpid");
-
-        header('Location: cart.php');
-    }
-    $db->close();
+        $result = $db->prepare("update products_cart set num_of_item=num_of_item+1 where Product_Id=$id");
+        $result->execute();
+        echo "<script type='text/javascript'> document.location = 'cart.php'; </script>";    }
 
 }
 ?>

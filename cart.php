@@ -44,7 +44,7 @@ include 'connection.php';
 					<thead>
 						<tr class="cart_menu">
 							<td class="image">Item</td>
-							<td class="description"></td>
+							<td class="description">Name</td>
 							<td class="price">Price</td>
 							<td class="quantity">Quantity</td>
 							<td class="total">Total</td>
@@ -53,6 +53,7 @@ include 'connection.php';
 					</thead>
 					<tbody>
                     <?php
+                    $alltotal = 0;
                     if(isset($_SESSION['cust_id']))
                         {
                             $custid = $_SESSION['cust_id'];
@@ -67,6 +68,8 @@ include 'connection.php';
                             $name = htmlentities($result->Product_Name);
                             $price = htmlentities($result->Selling_price);
                             $quantity = htmlentities($result->num_of_item);
+                            $total = $quantity*$price;
+                            $alltotal +=$total;
                             echo "<tr>
 							<td class='cart_product'>
 								<a href=''><img src='images/home/$name.jpg' height='110' width='110' alt=''></a>
@@ -79,30 +82,36 @@ include 'connection.php';
 								<p>$price</p>
 							</td>
 							<td class='cart_quantity'>
-								<div class='cart_quantity_button'>
-								    <form action='add1tocart.php' method='post'>
-								    <input type='hidden' name='pid' value='$productid'>
-								    <input type='submit' name='submit' class='cart_quantity_up' value='+'/>
-                                    </form>
-									
-									<input type='text' name='quantity' value='$quantity' autocomplete='off' size='2'>
-									<input type='submit' name='submit' class='cart_quantity_down' value='-'/>
-								</div>
-							</td>
+
+							<form action='add1tocart.php' method='post'>
+							<input type='hidden' name='id' value='$productid'>
+							<button class='cart_quantity_button' type='submit' name='submit'>+</button>
+							</form>
+							<form action='delete1fromcart.php' method='post'>
+							<input type='hidden' name='id' value='$productid'>
+							<button class='cart_quantity_button' type='submit' name='submit'>-</button>
+							<input class='cart_quantity_input' type='text' value='$quantity' autocomplete='off' size='2' disabled>
+                            </form>
+                            </td>
 							<td class='cart_total'>
-								<p class='cart_total_price'>$59</p>
+								<p class='cart_total_price'>L.L$total</p>
 							</td>
 							<td class='cart_delete'>
-								<a class='cart_quantity_delete' href=''><i class='fa fa-times'></i></a>
+							    <form method='post' action='removefromcart.php'>
+							    <button class='cart_quantity_delete' type='submit'><i class='fa fa-times'></i></button>
+                                </form>
+								
 							</td>
 						</tr>";
                         }
+
                     }
+
                         }
                     else
                         echo "";
-
                     ?>
+
 
 					</tbody>
 				</table>
@@ -112,21 +121,16 @@ include 'connection.php';
 
 	<section id="do_action">
 		<div class="container">
-			<div class="heading">
-				<h3>What would you like to do next?</h3>
-				<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
-			</div>
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <span>$59</span></li>
-							<li>Eco Tax <span>$2</span></li>
-							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <span>$61</span></li>
+							<li>Total <span><?php echo "L.L".$alltotal ?></span></li>
 						</ul>
-							<a class="btn btn-default update" href="">Update</a>
-							<a class="btn btn-default check_out" href="">Check Out</a>
+                        <form method="post" action="order.php">
+                            <button class="btn btn-default check_out" type="submit">Check Out</button>
+                        </form>
+
 					</div>
 				</div>
 			</div>

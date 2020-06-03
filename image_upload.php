@@ -1,15 +1,31 @@
- 
 <?php
-    error_reporting(E_ALL);
+ 
+$target_dir = "images/";
+$target_file_name = $target_dir .basename($_FILES["file"]["name"]);
+$response = array();
 
-    $target_path = $_FILES['file']['name'];
-    if(move_uploaded_file($_FILES['file']['tmp_name'], $target_path)) {
-        $msg = "File uploaded successfully!";
-    } else{
-        $msg = "Sorry, file not uploaded, please try again!";
-    }
+// Check if image file is a actual image or fake image
+if (isset($_FILES["file"])) 
+{
+ if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file_name)) 
+ {
+  $success = true;
+  $message = "Successfully Uploaded";
+ }
+ else 
+ {
+  $success = false;
+  $message = "Error while uploading";
+ }
+}
+else 
+{
+ $success = false;
+ $message = "Required Field Missing";
+}
 
-    $json = ["file" => $_FILES, "response" => $msg];
-    header('content-type: application/json');
-    echo json_encode($json);
+$response["success"] = $success;
+$response["message"] = $message;
+echo json_encode($response);
+
 ?>

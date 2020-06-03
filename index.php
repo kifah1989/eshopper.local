@@ -92,8 +92,8 @@ include 'connection.php';
                                         <div class='single-products'>
                                             <div class='productinfo text-center'>
                                             <h2>$status</h2>
-                                                <img src='images/home/$name.jpg' alt='product'/>
-                                                <h2>$$price</h2>
+                                                <img src='images/$name.jpg' alt='product'/>
+                                                <h2>L.L$price</h2>
                                                 <p>$name</p>
                                                 <form class='form-inline' method='post' action='add_cart.php'>
 							                        <input type='hidden' value='$productid' name='id'>
